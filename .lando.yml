@@ -5,4 +5,37 @@ config:
 services:
   appserver:
     run:
+      - echo "Running composer install"
       - composer install
+
+      - echo "Installing Drupal"
+      - drush site-install standard --db-url=mysql://drupal9:drupal9@database/drupal9 -y
+
+      - echo "Installing the simplesamlphp_auth"
+      - composer require drupal/simplesamlphp_auth && drush en simplesamlphp_auth -y
+
+      - echo "Creating a symlink between the www folder inside simplesaml and the web folder"
+      - ln -nfs /app/vendor/simplesamlphp/simplesamlphp/www web/simplesaml
+
+      - echo "Copy the config-template files to the config folder"
+      - cp -r vendor/simplesamlphp/simplesamlphp/config-templates/* vendor/simplesamlphp/simplesamlphp/config
+      - echo "Copy the metadata-template files to the metadata folder"
+      - cp -r vendor/simplesamlphp/simplesamlphp/metadata-templates/* vendor/simplesamlphp/simplesamlphp/metadata
+
+      - echo "Overriding htaccess with simplesaml folders"
+      - ln -nfs /app/simplesaml/htaccess /app/web/.htaccess
+
+      - echo "Overiding config.php with the conf for Lando"
+      - ln -nfs /app/simplesaml/config/config.php /app/vendor/simplesamlphp/simplesamlphp/config/config.php
+
+      - echo "Overiding authsources.php with the conf for Lando"
+      - ln -nfs /app/simplesaml/config/authsources.php /app/vendor/simplesamlphp/simplesamlphp/config/authsources.php
+
+      - echo "Adding already generated certificates"
+      - ln -nfs /app/simplesaml/cert /app/vendor/simplesamlphp/simplesamlphp/cert
+
+      - echo "Overriding saml20-idp-hosted.php with conf for Lando"
+      - ln -nfs /app/simplesaml/metadata/saml20-idp-hosted.php /app/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-hosted.php
+
+      - echo "Clear all caches"
+      - drush cr
