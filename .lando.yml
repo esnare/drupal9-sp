@@ -13,6 +13,10 @@ services:
 
       - echo "Installing the simplesamlphp_auth"
       - composer require drupal/simplesamlphp_auth && drush en simplesamlphp_auth -y
+      - echo "Configuring the simplesamlphp_auth"
+      - drush config:set simplesamlphp_auth.settings activate true -y
+      - drush config:set simplesamlphp_auth.settings unique_id uid -y
+      - drush config:set simplesamlphp_auth.settings user_name uid -y
 
       - echo "Creating a symlink between the www folder inside simplesaml and the web folder"
       - ln -nfs /app/vendor/simplesamlphp/simplesamlphp/www web/simplesaml
