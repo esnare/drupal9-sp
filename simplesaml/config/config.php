@@ -130,7 +130,7 @@ $config = [
      * A possible way to generate a random salt is by running the following command from a unix shell:
      * LC_CTYPE=C tr -c -d '0123456789abcdefghijklmnopqrstuvwxyz' </dev/urandom | dd bs=32 count=1 2>/dev/null;echo
      */
-    'secretsalt' => 'defaultsecretsalt',
+    'secretsalt' => 'b57axepulcwwpacl7nk7eomby6i12edo',
 
     /*
      * This password must be kept secret, and modified from the default value 123.
@@ -138,7 +138,7 @@ $config = [
      * metadata listing and diagnostics pages.
      * You can also put a hash here; run "bin/pwgen.php" to generate one.
      */
-    'auth.adminpassword' => '123',
+    'auth.adminpassword' => 'MySuperStrongPassword',
 
     /*
      * Set this options to true if you want to require administrator password to access the web interface
@@ -1175,7 +1175,7 @@ $config = [
      *
      * The default datastore is 'phpsession'.
      */
-    'store.type'                    => 'phpsession',
+    'store.type'                    => 'sql',
 
     /*
      * The DSN the sql datastore should connect to.
@@ -1183,13 +1183,13 @@ $config = [
      * See http://www.php.net/manual/en/pdo.drivers.php for the various
      * syntaxes.
      */
-    'store.sql.dsn'                 => 'sqlite:/path/to/sqlitedatabase.sq3',
+    'store.sql.dsn'                 => 'mysql:host=database;dbname=drupal9',
 
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username' => null,
-    'store.sql.password' => null,
+    'store.sql.username' => 'drupal9',
+    'store.sql.password' => 'drupal9',
 
     /*
      * The prefix we should use on our tables.
@@ -1207,3 +1207,5 @@ $config = [
      */
     'store.redis.prefix' => 'SimpleSAMLphp',
 ];
+
+$config['baseurlpath'] = 'https://'. $_SERVER['HTTP_HOST'] . '/simplesaml/';
